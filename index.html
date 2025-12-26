@@ -3,753 +3,677 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JPG to PNG Converter</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>JPG to PNG Converter - Fast & Free Online Tool</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-
+        
         body {
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: #f8f9fa;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
+            color: #333;
         }
-
-        body.dark-mode {
-            background-color: #121212;
-            color: #f0f0f0;
-        }
-
+        
         .container {
             width: 100%;
-            max-width: 800px;
-            background-color: #ffffff;
+            max-width: 500px;
+            background-color: white;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 30px;
-            margin: 0 auto;
-            transition: background-color 0.3s;
+            overflow: hidden;
         }
-
-        .dark-mode .container {
-            background-color: #1e1e1e;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Header and title */
-        .tool-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+        
+        .header {
+            padding: 30px 30px 20px 30px;
+            text-align: center;
             border-bottom: 1px solid #eaeaea;
         }
-
-        .dark-mode .tool-header {
-            border-bottom-color: #333;
-        }
-
-        .tool-title {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(90deg, #4a6bff, #6a11cb);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .dark-mode .tool-title {
-            background: linear-gradient(90deg, #6a8cff, #9d4edd);
-            -webkit-background-clip: text;
-            background-clip: text;
-        }
-
-        .mode-toggle {
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 20px;
-            width: 50px;
-            height: 24px;
-            position: relative;
-            cursor: pointer;
-            padding: 2px;
-            transition: background-color 0.3s;
-        }
-
-        .dark-mode .mode-toggle {
-            background-color: #333;
-        }
-
-        .toggle-circle {
-            width: 20px;
-            height: 20px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            position: absolute;
-            left: 2px;
-            transition: transform 0.3s, background-color 0.3s;
-        }
-
-        .dark-mode .toggle-circle {
-            transform: translateX(26px);
-            background-color: #6a8cff;
-        }
-
-        /* Instructions */
-        .instructions {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 30px;
-            font-size: 14px;
-            line-height: 1.5;
-            border-left: 4px solid #4a6bff;
-        }
-
-        .dark-mode .instructions {
-            background-color: #2a2a2a;
-            border-left-color: #6a8cff;
-        }
-
-        /* Main content layout */
-        .tool-content {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        @media (min-width: 768px) {
-            .tool-content {
-                flex-direction: row;
-            }
-        }
-
-        /* Input and output sections */
-        .input-section, .output-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .section-title {
-            font-size: 18px;
+        
+        .header h1 {
+            font-size: 24px;
             font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: #333;
+            margin-bottom: 8px;
         }
-
-        .section-title i {
-            color: #4a6bff;
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
         }
-
-        .dark-mode .section-title i {
-            color: #6a8cff;
+        
+        .content {
+            padding: 30px;
         }
-
-        /* File upload area */
+        
         .upload-area {
-            border: 2px dashed #ccc;
+            border: 2px dashed #d1d5db;
             border-radius: 10px;
             padding: 40px 20px;
             text-align: center;
+            background-color: #f9fafb;
+            margin-bottom: 25px;
             cursor: pointer;
-            transition: all 0.3s;
-            background-color: #fafafa;
-            min-height: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            transition: all 0.2s ease;
         }
-
-        .dark-mode .upload-area {
-            background-color: #2a2a2a;
-            border-color: #444;
+        
+        .upload-area:hover {
+            border-color: #3b82f6;
+            background-color: #f0f9ff;
         }
-
-        .upload-area:hover, .upload-area.dragover {
-            border-color: #4a6bff;
-            background-color: rgba(74, 107, 255, 0.05);
-        }
-
-        .dark-mode .upload-area:hover, .dark-mode .upload-area.dragover {
-            border-color: #6a8cff;
-            background-color: rgba(106, 140, 255, 0.1);
-        }
-
+        
         .upload-icon {
-            font-size: 48px;
-            color: #4a6bff;
+            font-size: 40px;
+            color: #6b7280;
             margin-bottom: 15px;
         }
-
-        .dark-mode .upload-icon {
-            color: #6a8cff;
+        
+        .upload-area h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
         }
-
-        .upload-text {
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
-        .upload-subtext {
+        
+        .upload-area p {
+            color: #6b7280;
             font-size: 14px;
-            color: #666;
             margin-bottom: 20px;
         }
-
-        .dark-mode .upload-subtext {
-            color: #aaa;
-        }
-
-        .upload-btn {
-            background-color: #4a6bff;
+        
+        .browse-btn {
+            background-color: #3b82f6;
             color: white;
             border: none;
-            border-radius: 6px;
             padding: 10px 24px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
-        .upload-btn:hover {
-            background-color: #3a5bef;
-            transform: translateY(-2px);
-        }
-
-        .upload-btn:active {
-            transform: translateY(0);
-        }
-
-        .dark-mode .upload-btn {
-            background-color: #6a8cff;
-        }
-
-        .dark-mode .upload-btn:hover {
-            background-color: #5a7cff;
-        }
-
-        /* Image preview area */
-        .preview-area {
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 20px;
-            background-color: #fafafa;
-            min-height: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .dark-mode .preview-area {
-            background-color: #2a2a2a;
-            border-color: #444;
-        }
-
-        .preview-image {
-            max-width: 100%;
-            max-height: 200px;
             border-radius: 6px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        .preview-placeholder {
-            color: #888;
+            font-weight: 500;
+            cursor: pointer;
             font-size: 14px;
+            transition: background-color 0.2s;
         }
-
-        .dark-mode .preview-placeholder {
-            color: #aaa;
+        
+        .browse-btn:hover {
+            background-color: #2563eb;
         }
-
-        /* File info */
-        .file-info {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 15px;
-            width: 100%;
-            max-width: 300px;
+        
+        .file-list {
+            margin-bottom: 25px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f9fafb;
         }
-
-        .info-row {
+        
+        .file-item {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background-color: white;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border-left: 3px solid #3b82f6;
             font-size: 14px;
         }
-
-        .info-label {
-            color: #666;
-        }
-
-        .dark-mode .info-label {
-            color: #aaa;
-        }
-
-        .info-value {
-            font-weight: 500;
-        }
-
-        /* Controls */
-        .controls {
+        
+        .file-info {
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
+            align-items: center;
+            gap: 10px;
         }
-
-        .control-btn {
-            padding: 10px 18px;
-            border-radius: 6px;
+        
+        .file-icon {
+            color: #3b82f6;
+            font-size: 16px;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .remove-file {
+            background: none;
             border: none;
-            font-weight: 600;
+            color: #ef4444;
             cursor: pointer;
-            transition: all 0.2s;
-            flex: 1;
-            min-width: 120px;
+            font-size: 16px;
+            padding: 0;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .remove-file:hover {
+            background-color: #fef2f2;
+        }
+        
+        .settings {
+            margin-bottom: 25px;
+        }
+        
+        .setting-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 15px;
+        }
+        
+        .size-select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            background-color: white;
+            color: #333;
+            font-size: 14px;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+        
+        .size-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .convert-btn {
+            flex: 1;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.2s;
+        }
+        
+        .convert-btn:hover {
+            background-color: #2563eb;
+        }
+        
+        .clear-btn {
+            flex: 1;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+        
+        .clear-btn:hover {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+        
+        .info-box {
+            background-color: #f0f9ff;
+            border-left: 3px solid #3b82f6;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #6b7280;
+            padding: 15px;
+            font-size: 14px;
+        }
+        
+        .progress-container {
+            margin-top: 15px;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #3b82f6;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 13px;
+            color: #6b7280;
+            text-align: center;
+        }
+        
+        .download-area {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f9ff;
+            border-radius: 8px;
+            border: 1px solid #bfdbfe;
+        }
+        
+        .download-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
             gap: 8px;
         }
-
-        .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        
+        .download-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background-color: white;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid #3b82f6;
         }
-
-        .control-btn:active {
-            transform: translateY(0);
-        }
-
-        .dark-mode .control-btn:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .convert-btn {
-            background-color: #4a6bff;
-            color: white;
-        }
-
-        .convert-btn:hover {
-            background-color: #3a5bef;
-        }
-
-        .dark-mode .convert-btn {
-            background-color: #6a8cff;
-        }
-
-        .dark-mode .convert-btn:hover {
-            background-color: #5a7cff;
-        }
-
+        
         .download-btn {
             background-color: #10b981;
             color: white;
-        }
-
-        .download-btn:hover {
-            background-color: #0da271;
-        }
-
-        .clear-btn {
-            background-color: #f0f0f0;
-            color: #333;
-        }
-
-        .clear-btn:hover {
-            background-color: #e0e0e0;
-        }
-
-        .dark-mode .clear-btn {
-            background-color: #333;
-            color: #f0f0f0;
-        }
-
-        .dark-mode .clear-btn:hover {
-            background-color: #444;
-        }
-
-        /* Conversion status */
-        .conversion-status {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 6px;
-            text-align: center;
-            font-weight: 500;
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .status-success {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .status-error {
-            background-color: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        /* Footer */
-        .tool-footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eaeaea;
-            text-align: center;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
             font-size: 13px;
-            color: #888;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
         }
-
-        .dark-mode .tool-footer {
-            border-top-color: #333;
-            color: #aaa;
+        
+        .download-btn:hover {
+            background-color: #059669;
         }
-
-        /* Responsive adjustments */
-        @media (max-width: 767px) {
+        
+        @media (max-width: 600px) {
             .container {
-                padding: 20px;
+                border-radius: 10px;
             }
             
-            .tool-title {
-                font-size: 24px;
+            .header {
+                padding: 25px 20px 15px 20px;
             }
             
-            .controls {
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .buttons {
                 flex-direction: column;
-            }
-            
-            .control-btn {
-                width: 100%;
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="tool-header">
-            <h1 class="tool-title">JPG to PNG Converter</h1>
-            <button class="mode-toggle" id="modeToggle">
-                <div class="toggle-circle"></div>
-            </button>
+        <div class="header">
+            <h1>JPG to PNG Converter</h1>
+            <p>Fast & Free Online Tool</p>
         </div>
-
-        <div class="instructions">
-            <p>Upload JPG images and convert them to PNG format instantly. All processing happens in your browser - your images never leave your device.</p>
-        </div>
-
-        <div class="tool-content">
-            <div class="input-section">
-                <h2 class="section-title">
-                    <i>📤</i> Input (JPG)
-                </h2>
-                <div class="upload-area" id="uploadArea">
-                    <div class="upload-icon">📁</div>
-                    <p class="upload-text">Drop your JPG files here</p>
-                    <p class="upload-subtext">or click to browse</p>
-                    <button class="upload-btn">Choose Files</button>
-                    <input type="file" id="fileInput" accept=".jpg,.jpeg,.jpe,.jif,.jfif,.jfi" multiple style="display: none;">
+        
+        <div class="content">
+            <div class="upload-area" id="drop-area">
+                <div class="upload-icon">
+                    <i class="fas fa-file-image"></i>
                 </div>
-
-                <div class="file-info" id="fileInfo" style="display: none;">
-                    <div class="info-row">
-                        <span class="info-label">File name:</span>
-                        <span class="info-value" id="fileName">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">File size:</span>
-                        <span class="info-value" id="fileSize">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Dimensions:</span>
-                        <span class="info-value" id="fileDimensions">-</span>
-                    </div>
-                </div>
+                <h3>Select JPG Files</h3>
+                <p>No files selected</p>
+                <button class="browse-btn" id="browse-btn">Browse Files</button>
+                <input type="file" id="file-input" multiple accept=".jpg,.jpeg,image/jpeg" class="hidden">
             </div>
-
-            <div class="output-section">
-                <h2 class="section-title">
-                    <i>📥</i> Output (PNG)
-                </h2>
-                <div class="preview-area" id="previewArea">
-                    <img class="preview-image" id="previewImage" src="" alt="Converted PNG preview">
-                    <p class="preview-placeholder" id="previewPlaceholder">Converted PNG will appear here</p>
-                </div>
-
-                <div class="conversion-status" id="conversionStatus"></div>
-
-                <div class="controls">
-                    <button class="control-btn convert-btn" id="convertBtn">
-                        <span>Convert to PNG</span>
-                    </button>
-                    <button class="control-btn download-btn" id="downloadBtn" disabled>
-                        <span>Download PNG</span>
-                    </button>
-                    <button class="control-btn clear-btn" id="clearBtn">
-                        <span>Clear All</span>
-                    </button>
-                </div>
+            
+            <div class="file-list" id="file-list">
+                <div class="empty-state">No files selected</div>
             </div>
-        </div>
-
-        <div class="tool-footer">
-            <p>Professional JPG to PNG Converter • All processing done client-side • No data uploaded to servers</p>
+            
+            <div class="settings">
+                <label class="setting-label">Size:</label>
+                <select class="size-select" id="size-select">
+                    <option value="512">512px</option>
+                    <option value="1024" selected>1024px</option>
+                    <option value="2048">2048px</option>
+                    <option value="original">Original Size</option>
+                </select>
+            </div>
+            
+            <div class="progress-container hidden" id="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Converting...</div>
+            </div>
+            
+            <div class="buttons">
+                <button class="convert-btn" id="convert-btn">Convert to PNG</button>
+                <button class="clear-btn" id="clear-btn">Clear All</button>
+            </div>
+            
+            <div class="download-area hidden" id="download-area">
+                <div class="download-title">
+                    <i class="fas fa-download"></i>
+                    Download Converted Files
+                </div>
+                <div id="download-links"></div>
+            </div>
+            
+            <div class="info-box">
+                Convert JPG images to PNG format. All processing happens in your browser.
+            </div>
         </div>
     </div>
 
     <script>
-        // DOM elements
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const previewArea = document.getElementById('previewArea');
-        const previewImage = document.getElementById('previewImage');
-        const previewPlaceholder = document.getElementById('previewPlaceholder');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const fileDimensions = document.getElementById('fileDimensions');
-        const convertBtn = document.getElementById('convertBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const conversionStatus = document.getElementById('conversionStatus');
-        const modeToggle = document.getElementById('modeToggle');
+        // DOM Elements
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-btn');
+        const dropArea = document.getElementById('drop-area');
+        const fileList = document.getElementById('file-list');
+        const convertBtn = document.getElementById('convert-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const sizeSelect = document.getElementById('size-select');
+        const progressContainer = document.getElementById('progress-container');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const downloadArea = document.getElementById('download-area');
+        const downloadLinks = document.getElementById('download-links');
         
-        // State variables
-        let originalImage = null;
-        let convertedImageUrl = null;
-        let originalFileName = '';
+        // File storage
+        let jpgFiles = [];
+        let convertedFiles = [];
         
-        // Dark mode toggle
-        modeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode);
+        // Initialize
+        browseBtn.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
         });
         
-        // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
-        
-        // File upload area interactions
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        // Handle drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
+        // Drag and drop
+        dropArea.addEventListener('dragover', (e) => {
             e.preventDefault();
-            uploadArea.classList.add('dragover');
+            dropArea.style.borderColor = '#3b82f6';
+            dropArea.style.backgroundColor = '#f0f9ff';
         });
         
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.style.borderColor = '#d1d5db';
+            dropArea.style.backgroundColor = '#f9fafb';
         });
         
-        uploadArea.addEventListener('drop', (e) => {
+        dropArea.addEventListener('drop', (e) => {
             e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            
-            if (e.dataTransfer.files.length) {
-                handleFiles(e.dataTransfer.files);
-            }
+            dropArea.style.borderColor = '#d1d5db';
+            dropArea.style.backgroundColor = '#f9fafb';
+            handleFiles(e.dataTransfer.files);
         });
         
         // Handle file selection
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                handleFiles(e.target.files);
-            }
-        });
-        
-        // Handle selected files
         function handleFiles(files) {
-            // Only process the first file
-            const file = files[0];
+            const fileArray = Array.from(files);
+            const validFiles = fileArray.filter(file => {
+                return file.type === 'image/jpeg' || 
+                       file.name.toLowerCase().endsWith('.jpg') || 
+                       file.name.toLowerCase().endsWith('.jpeg');
+            });
             
-            // Check if it's a JPG image
-            if (!file.type.match('image/jpeg') && !file.name.match(/\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i)) {
-                showStatus('Please select a JPG/JPEG image file.', 'error');
+            if (validFiles.length === 0) {
+                alert('Please select valid JPG files.');
                 return;
             }
             
-            originalFileName = file.name.replace(/\.[^/.]+$/, ""); // Remove extension
+            jpgFiles.push(...validFiles);
+            updateFileList();
             
-            // Display file info
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-            fileInfo.style.display = 'flex';
+            // Update upload area text
+            dropArea.querySelector('p').textContent = `${jpgFiles.length} file${jpgFiles.length !== 1 ? 's' : ''} selected`;
             
-            // Read and display the image
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = new Image();
-                img.onload = () => {
-                    // Store original image
-                    originalImage = img;
-                    
-                    // Display dimensions
-                    fileDimensions.textContent = `${img.width} × ${img.height}px`;
-                    
-                    // Reset conversion status
-                    conversionStatus.style.display = 'none';
-                    
-                    // Enable convert button
-                    convertBtn.disabled = false;
-                    
-                    // Reset download button
-                    downloadBtn.disabled = true;
-                    downloadBtn.innerHTML = '<span>Download PNG</span>';
-                    
-                    // Show preview of original image
-                    previewImage.src = e.target.result;
-                    previewImage.style.display = 'block';
-                    previewPlaceholder.style.display = 'none';
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+            // Hide download area if showing from previous conversion
+            downloadArea.classList.add('hidden');
+            convertedFiles = [];
         }
         
-        // Convert JPG to PNG
-        convertBtn.addEventListener('click', () => {
-            if (!originalImage) {
-                showStatus('Please upload a JPG image first.', 'error');
+        // Update file list display
+        function updateFileList() {
+            if (jpgFiles.length === 0) {
+                fileList.innerHTML = '<div class="empty-state">No files selected</div>';
+                dropArea.querySelector('p').textContent = 'No files selected';
                 return;
             }
             
-            // Show converting status
-            showStatus('Converting to PNG...', 'success');
+            fileList.innerHTML = '';
+            jpgFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <i class="fas fa-file-image file-icon"></i>
+                        <div class="file-name">${file.name}</div>
+                    </div>
+                    <button class="remove-file" data-index="${index}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                fileList.appendChild(fileItem);
+            });
             
-            // Simulate conversion process (in reality, we're just changing format)
-            setTimeout(() => {
-                // Create canvas to convert image
-                const canvas = document.createElement('canvas');
-                canvas.width = originalImage.width;
-                canvas.height = originalImage.height;
-                
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(originalImage, 0, 0);
-                
-                // Convert to PNG data URL
-                convertedImageUrl = canvas.toDataURL('image/png');
-                
-                // Update preview with converted image
-                previewImage.src = convertedImageUrl;
-                
-                // Enable download button
-                downloadBtn.disabled = false;
-                
-                // Show success status
-                showStatus('Conversion successful! Ready to download.', 'success');
-            }, 600);
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-file').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.currentTarget.getAttribute('data-index'));
+                    jpgFiles.splice(index, 1);
+                    updateFileList();
+                });
+            });
+        }
+        
+        // Clear button
+        clearBtn.addEventListener('click', () => {
+            jpgFiles = [];
+            convertedFiles = [];
+            updateFileList();
+            downloadArea.classList.add('hidden');
+            progressContainer.classList.add('hidden');
         });
         
-        // Download converted PNG
-        downloadBtn.addEventListener('click', () => {
-            if (!convertedImageUrl) {
-                showStatus('No converted image available.', 'error');
+        // Convert button - Actual JPG to PNG conversion
+        convertBtn.addEventListener('click', async () => {
+            if (jpgFiles.length === 0) {
+                alert('Please select JPG files to convert.');
                 return;
             }
             
-            // Create a temporary link element
+            // Reset progress
+            convertedFiles = [];
+            progressFill.style.width = '0%';
+            progressContainer.classList.remove('hidden');
+            downloadArea.classList.add('hidden');
+            
+            // Disable convert button during conversion
+            convertBtn.disabled = true;
+            convertBtn.textContent = 'Converting...';
+            
+            // Process each file
+            for (let i = 0; i < jpgFiles.length; i++) {
+                await convertFile(jpgFiles[i], i);
+                
+                // Update progress
+                const progress = ((i + 1) / jpgFiles.length) * 100;
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Converting file ${i + 1} of ${jpgFiles.length}...`;
+            }
+            
+            // Show download area
+            showDownloadLinks();
+            
+            // Re-enable convert button
+            convertBtn.disabled = false;
+            convertBtn.textContent = 'Convert to PNG';
+            
+            // Update progress text
+            progressText.textContent = 'Conversion complete!';
+        });
+        
+        // Convert individual JPG to PNG
+        function convertFile(file, index) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                const targetSize = sizeSelect.value === 'original' ? null : parseInt(sizeSelect.value);
+                
+                reader.onload = function(e) {
+                    const img = new Image();
+                    
+                    img.onload = function() {
+                        // Create canvas
+                        const canvas = document.createElement('canvas');
+                        
+                        // Set canvas size based on selection
+                        if (targetSize && targetSize !== 'original') {
+                            // Calculate new dimensions maintaining aspect ratio
+                            let width, height;
+                            if (img.width > img.height) {
+                                width = targetSize;
+                                height = Math.round((img.height / img.width) * targetSize);
+                            } else {
+                                height = targetSize;
+                                width = Math.round((img.width / img.height) * targetSize);
+                            }
+                            
+                            canvas.width = width;
+                            canvas.height = height;
+                        } else {
+                            // Use original size
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                        }
+                        
+                        // Draw image to canvas
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Fill with white background (for JPG transparency conversion)
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        
+                        // Draw the JPG image
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // Convert to PNG data URL
+                        const pngDataUrl = canvas.toDataURL('image/png');
+                        
+                        // Create download link
+                        const fileName = file.name.replace(/\.(jpg|jpeg)$/i, '.png');
+                        const convertedFile = {
+                            name: fileName,
+                            dataUrl: pngDataUrl,
+                            index: index
+                        };
+                        
+                        convertedFiles.push(convertedFile);
+                        resolve();
+                    };
+                    
+                    img.src = e.target.result;
+                };
+                
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // Show download links for converted files
+        function showDownloadLinks() {
+            downloadLinks.innerHTML = '';
+            
+            if (convertedFiles.length === 0) {
+                downloadLinks.innerHTML = '<div class="empty-state">No files converted</div>';
+                return;
+            }
+            
+            // Sort files by original index
+            convertedFiles.sort((a, b) => a.index - b.index);
+            
+            // Create download links
+            convertedFiles.forEach(file => {
+                const linkDiv = document.createElement('div');
+                linkDiv.className = 'download-link';
+                
+                linkDiv.innerHTML = `
+                    <div class="file-name">${file.name}</div>
+                    <button class="download-btn" data-url="${file.dataUrl}" data-name="${file.name}">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                `;
+                
+                downloadLinks.appendChild(linkDiv);
+            });
+            
+            // Add event listeners to download buttons
+            document.querySelectorAll('.download-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const dataUrl = e.currentTarget.getAttribute('data-url');
+                    const fileName = e.currentTarget.getAttribute('data-name');
+                    downloadFile(dataUrl, fileName);
+                });
+            });
+            
+            // Show download area
+            downloadArea.classList.remove('hidden');
+        }
+        
+        // Download file function
+        function downloadFile(dataUrl, fileName) {
             const link = document.createElement('a');
-            link.href = convertedImageUrl;
-            link.download = `${originalFileName || 'converted'}.png`;
+            link.href = dataUrl;
+            link.download = fileName;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
-            // Show download confirmation
-            showStatus('Download started!', 'success');
-            
-            // Change button text briefly
-            const originalText = downloadBtn.innerHTML;
-            downloadBtn.innerHTML = '<span>✓ Downloaded</span>';
-            
-            setTimeout(() => {
-                downloadBtn.innerHTML = originalText;
-            }, 2000);
-        });
-        
-        // Clear all
-        clearBtn.addEventListener('click', () => {
-            // Reset everything
-            originalImage = null;
-            convertedImageUrl = null;
-            originalFileName = '';
-            
-            // Reset UI
-            fileInput.value = '';
-            previewImage.src = '';
-            previewImage.style.display = 'none';
-            previewPlaceholder.style.display = 'block';
-            fileInfo.style.display = 'none';
-            conversionStatus.style.display = 'none';
-            
-            // Reset buttons
-            convertBtn.disabled = true;
-            downloadBtn.disabled = true;
-            downloadBtn.innerHTML = '<span>Download PNG</span>';
-            
-            // Show cleared status briefly
-            showStatus('All cleared. Upload a new JPG image.', 'success');
-            setTimeout(() => {
-                conversionStatus.style.display = 'none';
-            }, 3000);
-        });
-        
-        // Show status message
-        function showStatus(message, type) {
-            conversionStatus.textContent = message;
-            conversionStatus.className = 'conversion-status';
-            conversionStatus.classList.add(`status-${type}`);
-            conversionStatus.style.display = 'block';
         }
-        
-        // Format file size
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-        
-        // Initialize with a disabled convert button
-        convertBtn.disabled = true;
     </script>
 </body>
 </html>
